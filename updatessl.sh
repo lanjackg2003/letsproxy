@@ -16,8 +16,10 @@ updatessl() {
     for d_list in $(grep ACME_DOMAINS $DEFAULT_CONF | cut -d ' ' -f 2);
     do
       d=$(echo "$d_list" | cut -d , -f 1)
-      $ACME_BIN --issue --server letsencrypt --ocsp -k ec-256 \
+      $ACME_BIN  --issue --server letsencrypt --ocsp -k ec-256 --dns dns_ali \
       -d $d_list \
+      --dnssleep \
+      --install-cert \      
       --nginx \
       --fullchain-file "$CERTS/$d.crt" \
       --key-file "$CERTS/$d.key" \
